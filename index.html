@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unity Keyboard Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Unity WebView Keyboard Test</h1>
+
+  <input type="text" placeholder="Type something here…" />
+  <textarea placeholder="Or here…"></textarea>
+
+  <button onclick="unityWebView.call('focus_input')">🧪 Manually Trigger Keyboard</button>
+  <button onclick="unityWebView.call('blur_input')">🧪 Hide Keyboard</button>
+
+  <script>
+    if (typeof unityWebView !== 'undefined') {
+      console.log("✅ unityWebView is available");
+
+      window.addEventListener('focusin', function (e) {
+        const el = e.target;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable) {
+          console.log("🟡 focus_input triggered");
+          unityWebView.call('focus_input');
+        }
+      });
+
+      window.addEventListener('focusout', function (e) {
+        const el = e.target;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable) {
+          console.log("🔵 blur_input triggered");
+          unityWebView.call('blur_input');
+        }
+      });
+
+    } else {
+      console.log("❌ unityWebView not available");
+    }
+  </script>
+
+</body>
+</html>
